@@ -30,7 +30,7 @@ app.listen(app.get('port'), function() {
 });
 
 // routes prefixed with <code>webappContext</code>
-app.get(prefixRoute('sigin.html'), function(request, response) {
+app.get(prefixRoute('signin.html'), function(request, response) {
     response.render('pages/signin');
 });
 
