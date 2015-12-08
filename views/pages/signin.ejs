@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <% include ../partials/header-b.ejs %>
+  <link rel="stylesheet" href="/stylesheets/signin.css">
+</head>
+<body>
+  <div class="ContainerWrapper">
+    <div class="logo"></div>
+    <div class="tagline">The best reference to any concept, now <b>personalized</b></div>
+    <div class="container">
+      <form id="signin-form" class="form-signin">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      </form>
+    </div> <!-- /container -->
+  </div>
+
+  <% include ../partials/footer-b.ejs %>
+  <script type="text/javascript">
+    var webappContext;
+
+    $( document ).ready(function() {
+      var loc = window.location;
+      var path = loc.pathname;
+      // http://abc/com/a/b/c returns 'a'
+      webappContext = path.split('/')[1];
+      // rewrite the form submit endpoint
+      $( '#signin-form' ).attr('action', '/' + webappContext + '/home.html');
+    });
+  </script>
+</body>
+</html>
