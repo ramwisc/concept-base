@@ -2,12 +2,84 @@
 <html lang="en">
   <head>
     <% include ../partials/header-b.ejs %>
-    <link rel="stylesheet" href="/stylesheets/signin.css">
+    <link rel="stylesheet" href="/stylesheets/home.css">
   </head>
   <body>
-    <h2> Welcome <%= email %> </h2>
+    <div class="navbar-wrapper">
+      <div class="navbar">
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#"><span class="logo-color">conceptbase</span></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Search Concepts">
+                </div>
+                <button type="submit" class="btn btn-default">Search</button>
+              </form>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Compose</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                    role="button" aria-haspopup="true" aria-expanded="false">
+                    <span class="user"></span>
+                    <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#">Profile</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#" id="sign-out">Sign out</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container-fluid -->
+        </nav>
+      </div> <!-- end navbar -->
+
+      <div class="content">
+        <h2>//TODO</h2>
+      </div>
+    </div> <!-- end container-wrapper -->
+
+    <!-- include footer -->
     <% include ../partials/footer-b.ejs %>
     <script type="text/javascript">
+
+      function setUser() {
+        console.debug("Logged in user is: " + Cookies.get('email'));
+        $('.navbar .user').html(Cookies.get('email'));
+      }
+
+      function enableSignoutLink() {
+        $('#sign-out').click(function() {
+          Cookies.set('email', '');
+          var pathTokens = window.location.pathname.split('/');
+          pathTokens.shift(); // remove leading '/'
+          pathTokens.pop(); // remove last path element
+          pathTokens.push('signin.html'); // append the new path element
+          var signoutRedirect = window.location.protocol + '//'
+                                  + window.location.host + '/'
+                                  + pathTokens.join('/');
+          window.location.href = signoutRedirect;
+        });
+      }
+
+      $( document ).ready(function() {
+          setUser();
+          enableSignoutLink();
+      });
     </script>
   </body>
 </html>

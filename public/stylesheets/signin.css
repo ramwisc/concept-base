@@ -41,12 +41,9 @@ body {
 .logo {
   float: none;
   margin: auto;
-  width: 200px;
-  background-size: 200px 45px;
-  background-image: url("/logo.jpeg");
-  background-repeat: no-repeat;
-  background-position: center center;
-  height: 56px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 5em;
 }
 .tagline {
     float: none;
