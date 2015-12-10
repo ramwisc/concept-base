@@ -10,7 +10,8 @@
     "ejs": "2.3.3",
     "express": "4.13.3",
     "cookie-parser": "1.4.0",
-    "winston": "2.1.1"
+    "winston": "2.1.1",
+    "body-parser": "1.14.1"
   },
   "engines": {
     "node": "0.12.7"
