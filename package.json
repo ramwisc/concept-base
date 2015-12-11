@@ -11,10 +11,11 @@
     "express": "4.13.3",
     "cookie-parser": "1.4.0",
     "winston": "2.1.1",
-    "body-parser": "1.14.1"
+    "body-parser": "1.14.1",
+    "uuid": "2.0.1"
   },
   "engines": {
-    "node": "0.12.7"
+    "node": "4.2.3"
   },
   "repository": {
     "type": "git",
