@@ -23,9 +23,9 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <form class="navbar-form navbar-left" role="search">
                 <div class="form-group">
-                  <input type="text" class="form-control" placeholder="Search Concepts">
+                  <input id="concept-search" type="text" class="form-control" placeholder="Search Concepts">
                 </div>
-                <button type="submit" class="btn btn-default">Search</button>
+                <button type="button" id="search" class="btn btn-default">Search</button>
               </form>
               <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Compose</a></li>
@@ -47,15 +47,20 @@
           </div><!-- /.container-fluid -->
         </nav>
       </div> <!-- end navbar -->
+    </div> <!-- end navbar-wrapper -->
 
-      <div class="content">
-        <h2>//TODO</h2>
+    <div class="content-wrapper">
+      <div class="concept-container">
+        <div class="alert alert-danger" style="display:none" role="alert"></div>
       </div>
-    </div> <!-- end container-wrapper -->
+    </div>
 
     <!-- include footer -->
     <% include ../partials/footer-b.ejs %>
     <script type="text/javascript">
+      var path = window.location.pathname;
+      // http://abc/com/a/b/c returns 'a'
+      var webappContext = path.split('/')[1];
 
       function setUser() {
         console.debug("Logged in user is: " + Cookies.get('email'));
@@ -76,9 +81,34 @@
         });
       }
 
+      function enableSearchButton() {
+        $('#search').click(function() {
+          var conceptId = $('#concept-search').val();
+          if(!conceptId || conceptId.trim() === '') {
+            $('.concept-container .alert')
+              .html('oh! please enter a search term. ')
+              .css('display', 'block');
+            return;
+          }
+          var path = [webappContext, 'domain', 'Algorithms', 'concept', conceptId];
+          $.ajax({
+            url: '/' + path.join('/'),
+            dataType: 'json'
+          })
+          .done(function(data) {
+            console.log('obtained concept object: ' + JSON.stringify(data));
+          })
+          .fail(function(error) {
+            $('.concept-container .alert')
+              .html('oh! something went wrong. ' + JSON.stringify(error.responseJSON))
+              .css('display', 'block');
+          });
+        });
+      }
       $( document ).ready(function() {
           setUser();
           enableSignoutLink();
+          enableSearchButton();
       });
     </script>
   </body>

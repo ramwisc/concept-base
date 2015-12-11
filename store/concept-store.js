@@ -4,6 +4,7 @@
 var winston = require('winston');
 var util = require('util');
 var uuid = require('uuid');
+var async = require('async');
 
 /**
  * Represents an InMemoryStore of concepts in various domainToConcepts
@@ -80,7 +81,42 @@ InMemoryStore.prototype.getConcept = function(domain, id, callback) {
     if(!concept) {
       callback(null);
     } else {
-      callback(concept);
+      var resourceCache = {};
+      var other = this;
+      winston.debug("resources %s", JSON.stringify(concept.resources));
+      // https://www.npmjs.com/package/async#sortBy
+      async.sortBy(concept.resources, function(resourceId, cb) {
+        other.getResource(domain, id, resourceId, function(resource) {
+          if (resource) {
+            resourceCache[resourceId] = resource;
+            cb(null, resource.numLikes * -1); // descending order
+          } else {
+            var err = util.format("resourceId %s not found in concept %s, domain %s",
+                                                        resourceId, id, domain);
+            cb(err, null);
+          }
+        });
+      }, function(err, sortedResources) {
+        var modifiedConcept = {};
+        if (err) {
+          winston.error(err);
+          callback(null);
+        } else {
+          var keys = Object.keys(concept);
+          for(var i = 0; i < keys.length; i++) {
+            var k = keys[i];
+            if(k !== 'resources') {
+              modifiedConcept[k] = concept[k];
+            }
+          }
+          modifiedConcept.resources = [];
+          for(var i = 0; i < sortedResources.length; i++) {
+            var resId = sortedResources[i];
+            modifiedConcept.resources.push(resourceCache[resId]);
+          }
+        }
+        callback(modifiedConcept);
+      });
     }
   }
 }
@@ -125,7 +161,7 @@ InMemoryStore.prototype.addResource = function(domain, conceptId, resource, user
     } else {
       concepts[conceptId].resources.push(storedResource.id);
       this.resources[storedResource.id] = storedResource;
-      callback(storedResource.id, null); // success adding a concept!
+      callback(storedResource.id, null); // success adding a resource!
     }
   }
 }
@@ -173,6 +209,11 @@ InMemoryStore.prototype.adjustResLikeCount = function(domain, conceptId, resId, 
       } else {
         resource.likedBy[user] = (delta === 1) ? true : false;
         resource.numLikes = resource.numLikes + delta;
+        if(resource.numLikes < 0) {
+          winston.warn('like count became negative for domain: %s concept: %s resource: %s',
+                                                    domain, conceptId, resId);
+          resource.numLikes = 0;
+        }
         callback(resource.numLikes, null);
       }
     });
