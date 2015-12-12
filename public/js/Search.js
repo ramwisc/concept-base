@@ -102,6 +102,8 @@ var SearchList = React.createClass({
 var ListItem = React.createClass({
 
   handleClick: function(event) {
+    $('#search-results').hide();
+    $('#search').val(this.props.item.name);
     ReactDOM.render(<ConceptRenderer concept={this.props.item} />,
       document.getElementById('concept-container'));
   },
@@ -142,6 +144,8 @@ var SearchArea = React.createClass({
     var date = new Date();
     var q = $('#search').val();
     var url = this.props.url;
+
+    $('#search-results').show();
 
     switch(e.which) {
       case 38: // up
