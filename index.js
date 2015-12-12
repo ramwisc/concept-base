@@ -2,7 +2,7 @@ var express = require('express');
 var winston = require('winston');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var conceptStore = require('./store/concept-store.js').conceptStore;
+var conceptStore = require('./lib/concept-store.js').conceptStore;
 var util = require('util');
 
 // random string to obfuscate
@@ -115,6 +115,27 @@ app.get(prefixRoute("/domain/:domain/concept/:id"), function(req, res) {
     }
   });
 });
+
+/**
+ * Search for concepts by text
+ */
+app.get(prefixRoute("/concept/search"), function(req, res) {
+  var query = req.query.searchQuery;
+  winston.debug("retrieving concepts containing %s", query);
+  conceptStore.searchConcepts(query, function(concepts, error) {
+    if(error) {
+      var msg = util.format("error searching for concepts %s!", error);
+      res.status(500)
+        .set('Content-Type', 'application/json')
+        .send(JSON.stringify({msg : msg}));
+    } else {
+      res.status(200)
+          .set('Content-Type', 'application/json')
+          .send(JSON.stringify(concepts));
+    }
+  });
+});
+
 
 // CRUD on resources
 app.post(prefixRoute("/domain/:domain/concept/:concept/resource"), function(req, res) {
