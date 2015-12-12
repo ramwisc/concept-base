@@ -154,8 +154,5 @@ var SearchArea = React.createClass({
   }
 });
 
-// http://abc/com/a/b/c returns 'a'
-var webappContext =  window.location.pathname.split('/')[1];
-var url = '/' + webappContext + "/concept/search";
-ReactDOM.render(<SearchArea url={url} placeholder="Search ..." />,
+ReactDOM.render(<SearchArea url={"concept/search"} placeholder="Search ..." />,
   document.getElementById('search-area'));

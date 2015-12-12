@@ -68,6 +68,14 @@ app.listen(app.get('port'), function() {
 
 app.all(prefixRoute('/*'), requireAuthentication);
 
+app.get(prefixRoute('/'), function(request, response) {
+  response.render('pages/home');
+});
+
+app.get(prefixRoute('/index.html'), function(request, response) {
+  response.render('pages/home');
+});
+
 app.get(prefixRoute('/home.html'), function(request, response) {
   response.render('pages/home');
 });
