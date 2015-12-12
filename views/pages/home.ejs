@@ -3,6 +3,7 @@
   <head>
     <% include ../partials/header-b.ejs %>
     <link rel="stylesheet" href="/stylesheets/home.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   </head>
   <body>
     <div class="navbar-wrapper">
@@ -23,9 +24,9 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <form class="navbar-form navbar-left" role="search">
                 <div class="form-group">
-                  <input id="concept-search" type="text" class="form-control" placeholder="Search Concepts">
+                  <div id="search-area">
+                  </div>
                 </div>
-                <button type="button" id="search" class="btn btn-default">Search</button>
               </form>
               <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Compose</a></li>
@@ -57,11 +58,8 @@
 
     <!-- include footer -->
     <% include ../partials/footer-b.ejs %>
+    <script type="text/babel" src="/js/Search.js"></script>
     <script type="text/javascript">
-      var path = window.location.pathname;
-      // http://abc/com/a/b/c returns 'a'
-      var webappContext = path.split('/')[1];
-
       function setUser() {
         console.debug("Logged in user is: " + Cookies.get('email'));
         $('.navbar .user').html(Cookies.get('email'));
@@ -81,34 +79,9 @@
         });
       }
 
-      function enableSearchButton() {
-        $('#search').click(function() {
-          var conceptId = $('#concept-search').val();
-          if(!conceptId || conceptId.trim() === '') {
-            $('.concept-container .alert')
-              .html('oh! please enter a search term. ')
-              .css('display', 'block');
-            return;
-          }
-          var path = [webappContext, 'domain', 'Algorithms', 'concept', conceptId];
-          $.ajax({
-            url: '/' + path.join('/'),
-            dataType: 'json'
-          })
-          .done(function(data) {
-            console.log('obtained concept object: ' + JSON.stringify(data));
-          })
-          .fail(function(error) {
-            $('.concept-container .alert')
-              .html('oh! something went wrong. ' + JSON.stringify(error.responseJSON))
-              .css('display', 'block');
-          });
-        });
-      }
       $( document ).ready(function() {
           setUser();
           enableSignoutLink();
-          enableSearchButton();
       });
     </script>
   </body>

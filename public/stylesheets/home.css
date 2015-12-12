@@ -11,7 +11,6 @@
     box-sizing: border-box;
     z-index: 900;
     font-size: 14px;
-    color: #FFF;
     border-top: 2px solid #B92B27;
 }
 
@@ -38,4 +37,27 @@
   margin-bottom: 0px;
   margin-left: auto;
   padding-top: 80px;
+}
+
+#search-area .result {
+  color: #000000;
+  display: block;
+}
+#search-area .result:hover {
+  background-color: #ececec;
+}
+#search-area .result.active {
+  background-color: #ececec;
+}
+#search-area .result .title{
+  margin-left: 20px;
+}
+#search-area a {
+  text-decoration: none;
+}
+#search-area b {
+  color: #00BBFF
+}
+#search-area .description{
+  font-size: 13px;
 }

@@ -120,7 +120,7 @@ app.get(prefixRoute("/domain/:domain/concept/:id"), function(req, res) {
  * Search for concepts by text
  */
 app.get(prefixRoute("/concept/search"), function(req, res) {
-  var query = req.query.searchQuery;
+  var query = req.query.query;
   winston.debug("retrieving concepts containing %s", query);
   conceptStore.searchConcepts(query, function(concepts, error) {
     if(error) {
