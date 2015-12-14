@@ -97,3 +97,7 @@
   text-decoration: none;
   color: #333;
 }
+
+i.thumbs:hover {
+  cursor: pointer;
+}

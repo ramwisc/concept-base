@@ -56,8 +56,9 @@
     <script type="text/babel" src="/js/Search.js"></script>
     <script type="text/javascript">
       function setUser() {
-        console.debug("Logged in user is: " + Cookies.get('email'));
-        $('.navbar .user').html(Cookies.get('email'));
+        conceptBase.user = Cookies.get('email')
+        console.debug("Logged in user is: " + conceptBase.user);
+        $('.navbar .user').html(conceptBase.user);
       }
 
       function enableSignoutLink() {

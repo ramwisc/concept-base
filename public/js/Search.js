@@ -11,11 +11,68 @@ function highlight(data, search){
 // Concept Renderer
 
 var ResourceItem = React.createClass({
+
+  getInitialState: function() {
+    var resource = this.props.item;
+    var didUserLikeResourceBefore = resource['likedBy'][conceptBase.user] === true;
+    this.state = {};
+    this.state.numLikes = resource.numLikes;
+    this.state.thumbsCallback = didUserLikeResourceBefore ? this.handleThumbsDownClick : this.handleThumbsUpClick;
+    this.state.thumbsIcon = didUserLikeResourceBefore ? "fa-thumbs-down" : "fa-thumbs-up";
+
+    return this.state;
+  },
+
+  handleThumbsUpClick: function(event) {
+    var resource = this.props.item;
+    var domain = this.props.domain;
+    var concept = this.props.concept;
+    var that = this;
+    $.ajax({
+      method: "POST",
+      url: "domain/" + domain + "/concept/" + concept + "/resource/" + resource.id + "/like" ,
+      dataType: "json"
+    })
+    .done(function( msg ) {
+      that.setState({
+        numLikes: msg.likes,
+        thumbsCallback: that.handleThumbsDownClick,
+        thumbsIcon: "fa-thumbs-down"
+      });
+    })
+    .fail(function( error ) {
+      console.error(JSON.stringify(error));
+    });
+  },
+
+  handleThumbsDownClick: function(event) {
+    var resource = this.props.item;
+    var domain = this.props.domain;
+    var concept = this.props.concept;
+    var that = this;
+    $.ajax({
+      method: "POST",
+      url: "domain/" + domain + "/concept/" + concept + "/resource/" + resource.id + "/unlike" ,
+      dataType: "json"
+    })
+    .done(function( msg ) {
+      that.setState({
+        numLikes: msg.likes,
+        thumbsCallback: that.handleThumbsUpClick,
+        thumbsIcon: "fa-thumbs-up"
+      });
+    })
+    .fail(function( error ) {
+      console.error(JSON.stringify(error));
+    });
+  },
+
   render: function() {
     var resource = this.props.item;
     var id = this.props.id;
+
     return (
-      <div className="resource">
+      <div id={"resource-" + id} className="resource">
         <div className="resource-header">
           <div>
             <i className="fa fa-external-link"></i>
@@ -26,15 +83,16 @@ var ResourceItem = React.createClass({
                 </a>
             </span>
             &nbsp;&nbsp;
-            <span className="like-count">
-              <button className="btn btn-default btn-xs" type="button">
-                <i className="fa fa-thumbs-up"></i> <span className="badge">{resource.numLikes}</span>
-              </button>
-            </span>
+            <i onClick={this.state.thumbsCallback} className={"thumbs fa " + this.state.thumbsIcon}>
+            </i>
+            &nbsp;
+            <button className="like-count btn btn-default btn-xs" type="button">
+              <span className="badge">{this.state.numLikes}</span> Likes
+            </button>
             &nbsp;&nbsp;
             Posted by <a href="#" className="user-info">{resource.created_by}</a>
           </div>
-          <div class="concept-description">
+          <div className="concept-description">
             {resource.description}
           </div>
         </div>
@@ -44,20 +102,23 @@ var ResourceItem = React.createClass({
 });
 
 var ConceptRenderer = React.createClass({
+
   render: function() {
     var rows;
     var concept = this.props.concept;
     var resources = this.props.concept.resources;
     if(resources) {
       rows = resources.map(function(item, i) {
-        return(
-          <ResourceItem item={item} id={i}/>
-        );
+        return (function(_item, _i) {
+          return(
+            <ResourceItem item={_item} concept={concept.id} domain={concept.domain} id={_i}/>
+          );
+        })(item, i);
       }.bind(this));
     }
 
     return (
-      <div className="concept-wrapper">
+      <div id="concept-wrapper" className="concept-wrapper">
         <h4>
           <span className="label label-default">{concept.domain}</span>
           &nbsp;&nbsp;
@@ -104,11 +165,13 @@ var ListItem = React.createClass({
   handleClick: function(event) {
     $('#search-results').hide();
     $('#search').val(this.props.item.name);
-    ReactDOM.render(<ConceptRenderer concept={this.props.item} />,
-      document.getElementById('concept-container'));
+
+    var domNode = document.getElementById('concept-container');
+    ReactDOM.unmountComponentAtNode(domNode);
+    ReactDOM.render(<ConceptRenderer concept={this.props.item} />, domNode);
   },
 
-  render : function(){
+  render : function() {
     var item = this.props.item;
     var id = this.props.id;
     return (
@@ -208,10 +271,10 @@ var SearchArea = React.createClass({
     return (
       <div>
         <div className={"input-group"}>
-          <input id="search" onKeyDown={this.getResults}
+          <input id="search" onKeyUp={this.getResults} autoComplete="off"
             type="text" placeholder={this.props.placeholder} />
           <span className={"input-group-addon"}>
-            <i className={"fa fa-search"}></i>
+            <a href="#" onClick={this.getResults}><i className={"fa fa-search"}></i></a>
           </span>
         </div>
         <SearchList items={this.state.data.items}/>
