@@ -1,11 +1,16 @@
 /**
  * Script to populate initial concepts in the database.
+ * $ node bootstrap/bootstrap.js [hostname] [port]
+ *
+ * argv[2] -> hostname
+ * argv[3] -> port
  */
 
 var bootstrapData = require('./bootstrap-db.json');
 var http = require('http');
-var hostname = 'localhost';
-var port = 5000;
+var hostname = process.argv[2] ? process.argv[2] : 'localhost';
+var port = process.argv[3] ? process.argv[3] : 5000;
+
 var context = '/992f0957e1dcafc773d94f8ea4c9ba32ae9f4afe';
 var users = ['hamsini@fb.com', 'thea@fb.com', 'ram@contextbase.com',
               'test@gmail.com', 'ramwisc@gmail.com'];
