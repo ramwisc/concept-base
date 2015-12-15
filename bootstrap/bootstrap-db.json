@@ -1,0 +1,90 @@
+[
+  {
+    "domain" : "Algorithms",
+    "concept" : "Breadth First Search",
+    "description": [
+                     "Breadth-first search (BFS) is an algorithm for traversing or",
+                     "searching tree or graph data structures. It starts at the tree",
+                     "root (or some arbitrary node of a graph, sometimes referred to as",
+                      "a 'search key'[1]) and explores the neighbor nodes first, before",
+                      "moving to the next level neighbors"
+                  ],
+    "resources" : [
+       {
+          "link" : "https://www.youtube.com/watch?v=QRq6p9s8NVg",
+          "description": ["Youtube link"]
+       },
+       {
+          "link" : "https://en.wikipedia.org/wiki/Breadth-first_search",
+          "description": ["wiki BFS link. good one to start from."]
+       }
+    ]
+  },
+
+  {
+    "domain" : "Algorithms",
+    "concept" : "depth  First Search",
+    "description": [
+                     "Depth-first search (DFS) is an algorithm for traversing or",
+                     "searching tree or graph data structures. One starts at the root",
+                     "(selecting some arbitrary node as the root in the case of a graph)",
+                     "and explores as far as possible along each branch before backtracking."
+                  ],
+    "resources" : [
+       {
+          "link" : "https://en.wikipedia.org/wiki/Depth-first_search",
+          "description": ["This is a great starting point for beginners. Let's see if it gets likes."]
+       },
+       {
+          "link" : "http://web.stanford.edu/~msirota/soco/depth.html",
+          "description": ["DFS link from Stanford"]
+       }
+    ]
+  },
+
+  {
+    "domain" : "Machine Learning",
+    "concept" : "gradient descent",
+    "description": [
+                    "Gradient descent is a first-order optimization algorithm.",
+                    "To find a local minimum of a function using gradient descent",
+                    "one takes steps proportional to the negative of the gradient",
+                    "or of the approximate gradient) of the function at the current point."
+                  ],
+    "resources" : [
+       {
+          "link" : "http://spin.atomicobject.com/2014/06/24/gradient-descent-linear-regression/",
+          "description": ["This one has great illustrations"]
+       },
+       {
+          "link" : "http://research.microsoft.com/pubs/192769/tricks-2012.pdf",
+          "description": ["Theoretically deep one from Microsoft"]
+       },
+       {
+          "link" : "https://github.com/mattnedrich/GradientDescentExample",
+          "description": ["Code example in GitHub"]
+       }
+    ]
+  },
+
+  {
+    "domain" : "optimization",
+    "concept" : "Simulated annealing search",
+    "description": [
+                    "Simulated annealing (SA) is a probabilistic technique for ",
+                    "approximating the global optimum of a given function. Specifically",
+                    "it is a metaheuristic for approximate global optimization in a large search space."
+                  ],
+    "resources" : [
+       {
+          "link" : "http://katrinaeg.com/simulated-annealing.html",
+          "description": ["Good one with illustrations"]
+       },
+       {
+          "link" : "http://mathworld.wolfram.com/SimulatedAnnealing.html",
+          "description": ["Detailed one from Wolfram MathWorld."]
+       }
+    ]
+  }
+
+]

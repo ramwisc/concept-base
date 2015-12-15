@@ -78,7 +78,7 @@ var ResourceItem = React.createClass({
             <i className="fa fa-external-link"></i>
             &nbsp;
             <span className="link-content">
-              <a href={resource.link} target="_new">
+              <a href={resource.link} target="_blank">
                 {resource.link}
                 </a>
             </span>
@@ -124,6 +124,11 @@ var ConceptRenderer = React.createClass({
           &nbsp;&nbsp;
           <span className="label label-primary">{concept.name}</span>
         </h4>
+        <div className="concept-description">
+          <i className="fa fa-quote-left fa-border"></i>
+            {concept.description}
+          <i className="fa fa-quote-right fa-border"></i>
+        </div>
         <div className="resource-count">
           Found <span className="badge">{resources.length}</span> resources
         </div>

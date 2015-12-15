@@ -32,6 +32,7 @@ function requireAuthentication(req, res, next) {
       res.cookie('email', email, { maxAge: 900000, httpOnly: false });
       winston.debug("set cookie to %s", email);
     } else {
+        winston.debug("redirecting to sigin");
         res.render("pages/signin"); // ask to sign in
         return;
     }

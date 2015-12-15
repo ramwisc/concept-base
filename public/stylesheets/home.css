@@ -101,3 +101,9 @@
 i.thumbs:hover {
   cursor: pointer;
 }
+
+.concept-description {
+  font-size: 16px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
