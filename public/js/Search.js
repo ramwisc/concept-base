@@ -1,4 +1,4 @@
-/* Search React Component==================================== */
+  /* Search React Component==================================== */
 
 function preg_quote( str ) {
   return (str+'').replace(/([\\\.\+\*\?\[\^\]\$\(\)\{\}\=\!\<\>\|\:])/g, "\\$1");
@@ -92,7 +92,7 @@ var ResourceItem = React.createClass({
             &nbsp;&nbsp;
             Posted by <a href="#" className="user-info">{resource.created_by}</a>
           </div>
-          <div className="concept-description">
+          <div className="resource-description">
             {resource.description}
           </div>
         </div>
